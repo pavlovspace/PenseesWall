@@ -1,11 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-var User = require('../models/User')
+// var User = require('../models/User')
+const User = mongoose.model("User")
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const JWT_SECRET = 'somthjing'
+// const JWT_SECRET = 'somthjing'
+const {JWT_SECRET} = require('../config/keys')
+const requireLogin = require('../middleware/requireLogin')
+
 
 // Signup route
 router.post('/signup',(req,res)=>{
