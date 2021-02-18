@@ -6,24 +6,14 @@ const Post = mongoose.model("Post")
 // var Post = require('../models/Post')
 
 // View all posts route
-router.get('/allpost', (req,res)=>{
-    // Post.find()
-    // .populate("postedBy","_id name")
-    // .populate("comments.postedBy","_id name")
-    // .sort('-createdAt')
-    // .then((posts)=>{
-    //     res.json({posts})
-    // }).catch(err=>{
-    //     console.log(err)
-    // })
+router.get('/allpost',requireLogin,(req,res)=>{
     Post.find()
     .populate("postedBy","_id name")
-    .then(posts=>{
+    .then((posts)=>{
         res.json({posts})
-    })
-    .catch(err=>{
-            console.log(err)
-    })
+    }).catch(err=>{
+        console.log(err)
+    }) 
 })
 
 
