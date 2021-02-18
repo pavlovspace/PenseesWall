@@ -3,8 +3,9 @@ import {Link,useHistory} from 'react-router-dom'
 import M from 'materialize-css'
 const SignIn  = ()=>{
     const history = useHistory()
-    const [password,setPasword] = useState("")
+    const [password,setPassword] = useState("")
     const [email,setEmail] = useState("")
+
     const PostData = ()=>{
         if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
             M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
@@ -17,24 +18,25 @@ const SignIn  = ()=>{
             },
             body:JSON.stringify({
                 password,
-                email
+                email,
             })
         }).then(res=>res.json())
         .then(data=>{
-            console.log(data)
-           if(data.error){
+            console.log(data);
+            if(data.error){
               M.toast({html: data.error,classes:"#c62828 red darken-3"})
            }
            else{
-               localStorage.setItem("jwt",data.token)
-               localStorage.setItem("user",JSON.stringify(data.user))
-               M.toast({html:"signedin success",classes:"#43a047 green darken-1"})
+               M.toast({html:"signedin succes",classes:"#43a047 green darken-1"})
                history.push('/')
            }
-        }).catch(err=>{
+        }) 
+        .catch(err=>{
             console.log(err)
         })
     }
+
+
    return (
       <div className="mycard">
           <div className="card auth-card input-field">
@@ -49,20 +51,18 @@ const SignIn  = ()=>{
             type="password"
             placeholder="password"
             value={password}
-            onChange={(e)=>setPasword(e.target.value)}
+            onChange={(e)=>setPassword(e.target.value)}
             />
+            <div className="file-field input-field">
+            </div>
             <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
             onClick={()=>PostData()}
             >
-                Login
+                SignIn
             </button>
             <h5>
-                <Link to="/signup">Dont have an account ?</Link>
+                <Link to="/signup">Already have an account ?</Link>
             </h5>
-            <h6>
-                <Link to="/reset">Forgot password ?</Link>
-            </h6>
-    
         </div>
       </div>
    )

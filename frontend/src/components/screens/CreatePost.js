@@ -15,7 +15,7 @@ const CretePost = ()=>{
                 "Content-Type":"application/json",
                 "Authorization":"Bearer "+localStorage.getItem("jwt")
             },
-            body:JSON.stringify({
+            body:JSON.stringify({ 
                 title,
                 body,
                 pic:url
