@@ -22,7 +22,7 @@ router.get('/allpost',requireLogin,(req,res)=>{
 router.post('/createpost',requireLogin,(req,res)=>{
     const {title,body,pic} = req.body 
     if(!title || !body || !pic){
-      return  res.status(422).json({error:"Plase add all the fields"})
+      return  res.status(402).json({error:"Plase add all the fields"})
     }
     req.user.password = undefined
     const post = new Post({
@@ -59,7 +59,7 @@ router.put('/like',requireLogin,(req,res)=>{
         new:true
     }).exec((err,result)=>{
         if(err){
-            return res.status(422).json({error:err})
+            return res.status(402).json({error:err})
         }else{
             res.json(result)
         }
@@ -73,13 +73,14 @@ router.put('/unlike',requireLogin,(req,res)=>{
         new:true
     }).exec((err,result)=>{
         if(err){
-            return res.status(422).json({error:err})
+            return res.status(402).json({error:err})
         }else{
             res.json(result)
         }
     })
 })
 
+// comment
 router.put('/comment',requireLogin,(req,res)=>{
     const comment = {
         text:req.body.text,
@@ -97,6 +98,25 @@ router.put('/comment',requireLogin,(req,res)=>{
             return res.status(422).json({error:err})
         }else{
             res.json(result)
+        }
+    })
+})
+
+// delete post
+router.delete('/deletepost/:postId',requireLogin,(req,res)=>{
+    Post.findOne({_id:req.params.postId})
+    .populate("postedBy","_id")
+    .exec((err,post)=>{
+        if(err || !post){
+            return res.status(422).json({error:err})
+        }
+        if(post.postedBy._id.toString() === req.user._id.toString()){
+              post.remove()
+              .then(result=>{
+                  res.json(result)
+              }).catch(err=>{
+                  console.log(err)
+              })
         }
     })
 })
