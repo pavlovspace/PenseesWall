@@ -11,14 +11,19 @@ const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 const { SENDGRID_API_KEY, EMAIL } = require("../config/keys");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.com",
+//   port: 465,
+//   auth: {
+//     username: "email",
+//     password: "password",
+//   },
+// });
+const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
-    username: "email",
-    password: "password",
+    api_key:"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"
   },
-});
+}));
 
 router.post("/signup", (req, res) => {
   const { name, email, password, pic } = req.body;
@@ -46,9 +51,9 @@ router.post("/signup", (req, res) => {
             transporter.sendMail(
               {
                 to: user.email,
-                from: "upadhyaytanuj123@gmail.com",
+                from: "Pavlov1space@gmail.com",
                 subject: "signup success",
-                html: "<h1>welcome to instagram</h1>",
+                html: "<h1>welcome to social-network</h1>",
               },
               (err, info) => {
                 if (err) {
@@ -120,7 +125,7 @@ router.post("/reset-password", (req, res) => {
         transporter.sendMail(
           {
             to: user.email,
-            from: "upadhyaytanuj123@gmail.com",
+            from: "pavlov1space@gmail.com",
             subject: "password reset",
             html: `
                      <p>You requested for password reset</p>
