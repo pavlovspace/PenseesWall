@@ -137,7 +137,7 @@ const Profile  = ()=>{
        </div>
        
        
-       : <h2>loading...!</h2>}
+       : <Loading/>}
        
        </>
    )
